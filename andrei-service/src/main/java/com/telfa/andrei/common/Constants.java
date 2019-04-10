@@ -70,5 +70,5 @@ public class Constants {
      */
     public static final String ERROR = "error";
 
-
+    public static final String REDIS_KEY = "andrei:";
 }

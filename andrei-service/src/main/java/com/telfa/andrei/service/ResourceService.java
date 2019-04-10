@@ -1,8 +1,11 @@
 package com.telfa.andrei.service;
 
+import com.github.pagehelper.PageHelper;
 import com.telfa.andrei.mapper.ResourceMapper;
 import com.telfa.andrei.model.Resource;
 import com.telfa.andrei.model.ResourceExample;
+import com.telfa.andrei.model.Role;
+import com.telfa.andrei.model.RoleExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

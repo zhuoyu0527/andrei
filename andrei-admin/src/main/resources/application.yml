@@ -10,11 +10,15 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: test
   thymeleaf:
     cache: false
   application:
     name: andrei-admin
+  session:
+    redis:
+      namespace: andrei
+      flush-mode: immediate
 
 mybatis:
   mapper-locations: classpath:mybatis/andrei/*.xml
@@ -29,7 +33,7 @@ mapper:
 
 ---
 spring:
-  profiles: dev
+  profiles: test
   ## datasource config, use alibaba druid datasource connector
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -51,3 +55,15 @@ spring:
       testOnReturn: false
       poolPreparedStatements: true
       maxOpenPreparedStatements: 20
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    timeout:
+    jedis:
+      pool:
+        max-idle: 20
+        min-idle: 8
+        max-wait: 10000ms
+  session:
+    store-type: redis

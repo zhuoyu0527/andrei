@@ -5,7 +5,10 @@ import com.telfa.andrei.common.Constants;
 import com.telfa.andrei.mapper.*;
 import com.telfa.andrei.mapper.UserRoleMapper;
 import com.telfa.andrei.model.*;
+import com.telfa.andrei.utils.DateUtil;
+import com.telfa.andrei.vo.RoleVO;
 import com.telfa.andrei.vo.Xtree;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,39 @@ public class RoleService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+
+    /**
+     * 获取所有角色列表
+     * @param roleVO
+     * @param pageNo
+     * @param pageRows
+     * @return
+     */
+    public List<Role> listAllRole(RoleVO roleVO, int pageNo, int pageRows){
+        RoleExample example = buildRoleExample(roleVO);
+        PageHelper.startPage(pageNo,pageRows);
+        List<Role> roles = roleMapper.selectByExample(example);
+        return (roles != null && roles.size() > 0)?roles:null;
+    }
+
+    private RoleExample buildRoleExample(RoleVO roleVO){
+        RoleExample example = new RoleExample();
+        RoleExample.Criteria criteria = example.createCriteria();
+        //封装角色名称
+        if(roleVO != null && StringUtils.isNotBlank(roleVO.getContent())){
+            criteria.andRoleNameLike("%"+roleVO.getContent()+"%");
+        }
+        //封装选择日期
+        if(roleVO!=null&& StringUtils.isNotBlank(roleVO.getCreateTimeBegin())&& StringUtils.isNotBlank(roleVO.getCreateTimeEnd())){
+            criteria.andCreateTimeBetween((int) DateUtil.strToSeconds(roleVO.getCreateTimeBegin().concat(" 00:00:00")),(int)DateUtil.strToSeconds(roleVO.getCreateTimeEnd().concat(" 23:59:59")));
+        }else if(roleVO!=null&& StringUtils.isBlank(roleVO.getCreateTimeBegin())&& StringUtils.isNotBlank(roleVO.getCreateTimeEnd())){
+            criteria.andCreateTimeLessThanOrEqualTo((int)DateUtil.strToSeconds(roleVO.getCreateTimeEnd().concat(" 23:59:59")));
+        }else if(roleVO!=null&& StringUtils.isNotBlank(roleVO.getCreateTimeBegin())&& StringUtils.isBlank(roleVO.getCreateTimeEnd())){
+            criteria.andCreateTimeGreaterThanOrEqualTo((int)DateUtil.strToSeconds(roleVO.getCreateTimeBegin().concat(" 00:00:00")));
+        }
+        criteria.andDisabledEqualTo(Constants.NO);
+        return example;
+    }
 
     public List<Role> getAllRole(){
         RoleExample example =  new RoleExample();

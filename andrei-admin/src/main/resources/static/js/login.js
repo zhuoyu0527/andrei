@@ -11,6 +11,8 @@ layui.use(['form','layer','jquery'],function() {
         $ = layui.jquery;
 
     form.on("submit(login)",function(data){
+        console.log(_ctx);
+        console.log(111);
         var loading = layer.load(3);
         $.ajax({
             url: _ctx + 'login',

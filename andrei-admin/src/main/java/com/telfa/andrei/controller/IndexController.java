@@ -1,5 +1,6 @@
 package com.telfa.andrei.controller;
 
+import com.telfa.andrei.auth.ContextHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +15,10 @@ public class IndexController {
 
     @GetMapping("")
     public String index() {
-        /*if(ContextHelper.currentSysUserDetails() == null) {
+        if(ContextHelper.currentSysUserDetails() == null) {
             return "login";
-
-        }*/
-        return "login";
-        //return "index";
+        }
+        return "index";
     }
 
     @GetMapping("/main")
