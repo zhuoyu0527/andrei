@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.telfa.andrei.mapper.RoleResourceMapper">
+  <resultMap id="BaseResultMap" type="com.telfa.andrei.model.RoleResource">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="RESOURCE_ID" jdbcType="INTEGER" property="resourceId" />
+    <result column="ROLE_ID" jdbcType="INTEGER" property="roleId" />
+  </resultMap>
+  <select id="listAllRoleResource" resultType="com.telfa.andrei.model.RoleResource">
+    select
+    r.role_code,
+    rr.role_id,
+    r2.url,
+    rr.resource_id
+    from b_role_resource rr, b_role r, b_resource r2
+    where rr.role_id = r.role_id and rr.resource_id = r2.resource_id and r.disabled = 0 and r.status = 0
+    and r2.status = 0 and r2.disabled = 0 and r2.url is not null
+  </select>
+</mapper>

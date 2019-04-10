@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.telfa.andrei.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.telfa.andrei.model.Role">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+    <result column="role_desc" jdbcType="VARCHAR" property="roleDesc" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="updator" jdbcType="INTEGER" property="updator" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+    <result column="disabled" jdbcType="INTEGER" property="disabled" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="select-role-columns">
+    r.role_id, r.role_name, r.role_code, r.role_desc
+  </sql>
+  <select id="listRoleBySysUserId" parameterType="int" resultType="com.telfa.andrei.model.Role">
+    select <include refid="select-role-columns"/>
+    from b_user_role ur, b_role r
+    where r.disabled = 0 and r.status = 0 and ur.role_id = r.role_id and ur.sys_user_id = #{sysUserId}
+  </select>
+</mapper>

@@ -1,0 +1,35 @@
+/** 覆盖layui的样式 **/
+.layui-input, .layui-select, .layui-textarea {
+    height: 30px;
+    line-height: 1;
+    line-height: 30px\9;
+}
+.layui-form-select dl {
+    top: 31px;
+}
+.layui-form-label {
+    width: 60px;
+    margin-right: 3px;
+    padding: 5px 5px;
+}
+.layui-form-item {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.layui-form-item .layui-inline {
+    margin-bottom: 2px;
+    margin-right: 2px;
+}
+.layui-input-block {
+    margin-left: 100px;
+    min-height: 30px;
+}
+.layui-form-mid {
+    padding: 5px 0!important;
+}
+.layui-tab {
+    margin: 0;
+}
+.layui-table-cell {
+    height: inherit;
+}

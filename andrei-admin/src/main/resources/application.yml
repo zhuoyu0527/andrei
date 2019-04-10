@@ -1,0 +1,53 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /admin
+  undertow:
+    buffer-size: 1024
+    io-threads: 2
+    worker-threads: 16
+    direct-buffers: true
+
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    cache: false
+  application:
+    name: andrei-admin
+
+mybatis:
+  mapper-locations: classpath:mybatis/andrei/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+mapper:
+  identity: MYSQL
+  not-empty: true
+  mappers:
+    - com.telfa.andrei.base.BaseMapper
+
+
+---
+spring:
+  profiles: dev
+  ## datasource config, use alibaba druid datasource connector
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/andrei?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filters: stat
+      maxActive: 20
+      initialSize: 3
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20

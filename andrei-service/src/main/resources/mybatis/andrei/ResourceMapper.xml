@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.telfa.andrei.mapper.ResourceMapper">
+  <resultMap id="BaseResultMap" type="com.telfa.andrei.model.Resource">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="resource_id" jdbcType="INTEGER" property="resourceId" />
+    <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
+    <result column="resource_code" jdbcType="VARCHAR" property="resourceCode" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="resource_type" jdbcType="INTEGER" property="resourceType" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="show_order" jdbcType="INTEGER" property="showOrder" />
+    <result column="key_value" jdbcType="VARCHAR" property="keyValue" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="updator" jdbcType="INTEGER" property="updator" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+    <result column="disabled" jdbcType="INTEGER" property="disabled" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="resource_desc" jdbcType="VARCHAR" property="resourceDesc" />
+    <result column="is_show" jdbcType="INTEGER" property="isShow" />
+  </resultMap>
+
+  <sql id="select-columns-resource">
+  r.resource_id resourceId,
+  r.resource_name resourceName,
+  r.resource_code resourceCode,
+  r.url url,
+  r.method_name methodName,
+  r.icon icon,
+  r.resource_type resourceType,
+  r.parent_id parentId,
+  r.show_order showOrder,
+  r.key_value keyValue,
+  r.level level,
+  r.creator creator,
+  r.create_time createTime,
+  r.updator updator,
+  r.update_time updateTime,
+  r.disabled disabled,
+  r.status status,
+  r.resource_desc resourceDesc,
+  r.is_show isShow
+  </sql>
+
+  <select id="listResourceBySysUserId" parameterType="int" resultType="com.telfa.andrei.model.Resource">
+    SELECT DISTINCT  <include refid="select-columns-resource"/>
+    FROM t_resource r LEFT JOIN t_role_resource rr  on rr.resource_id=r.resource_id
+    LEFT JOIN  t_user_role ur on ur.role_id=rr.role_id
+    where ur.sys_user_id=#{sysUserId} ORDER BY parentId,showOrder
+  </select>
+</mapper>

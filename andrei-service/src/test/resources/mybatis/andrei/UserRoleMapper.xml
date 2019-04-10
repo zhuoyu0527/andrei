@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.telfa.andrei.mapper.UserRoleMapper">
+  <resultMap id="BaseResultMap" type="com.telfa.andrei.model.UserRole">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="sys_user_id" jdbcType="INTEGER" property="sysUserId" />
+  </resultMap>
+  <resultMap id="RoleResultMap" type="com.telfa.andrei.model.UserRole">
+    <id column="role_id" jdbcType="INTEGER" property="role.roleId"/>
+    <association property="role" javaType="com.telfa.andrei.model.Role">
+      <id column="role_id" property="roleId"/>
+      <result property="roleName" column="role_name"/>
+      <result property="roleDesc" column="role_desc"/>
+      <result property="status" column="status" jdbcType="INTEGER"/>
+      <result property="disabled" column="disabled" jdbcType="INTEGER"/>
+    </association>
+  </resultMap>
+
+  <sql id="Example_Where_Clause_By_SysUserId">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <select id="listRolesBySysUserId" resultMap="RoleResultMap" parameterType="com.telfa.andrei.model.UserRoleExample">
+    select
+    a.role_id, b.role_name, b.role_desc, b.disabled, b.status
+    from b_user_role a left outer join b_role b on a.role_id = b.role_id
+    <include refid="Example_Where_Clause_By_SysUserId"/>
+  </select>
+
+
+  <select id="listAvailableRoleByBySysUserId" parameterType="int" resultType="com.telfa.andrei.model.UserRole">
+    select
+    a.role_id
+    from b_user_role a left outer join b_role b on a.role_id = b.role_id
+    where a.sys_user_id=#{sysUserId} and b.status=0 and b.disabled=0
+  </select>
+</mapper>

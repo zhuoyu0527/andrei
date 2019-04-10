@@ -1,0 +1,87 @@
+/*公共样式*/
+.childrenBody{ padding:10px;}
+.layui-table-view{ margin:0 !important;}
+.magb0{margin-bottom:0 !important;}
+.magt0{ margin-top:0 !important;}
+.magt3{ margin-top:3px !important;}
+.magt10{ margin-top:10px !important;}
+.magb15{ margin-bottom:15px !important;}
+.magt30{ margin-top:30px !important;}
+.layui-left{text-align:left;}
+.layui-block{ width:100% !important;}
+.layui-center{text-align:center;}
+.layui-right{text-align:right;}
+.layui-elem-quote.title{ padding:10px 15px; margin-bottom:0;}
+.layui-bg-white{ background-color:#fff !important;}
+.border{ border:1px solid #e6e6e6 !important; padding:10px; border-top:none;}
+.main_btn .layui-btn{ margin:2px 5px 2px 0;}
+.layui-timeline-axis{ left:-4px;}
+.layui-elem-quote{ word-break: break-all;}
+.icons li,.icons li:hover,.loginBody .seraph,.loginBody .seraph:hover,.loginBody .layui-form-item.layui-input-focus label,.loginBody .layui-form-item label,.loginBody .layui-form-item.layui-input-focus input,.loginBody .layui-form-item input{transition: all 0.3s ease-in-out;-webkit-transition: all 0.3s ease-in-out;}
+.icons li:hover i,.icons li i{transition: font-size 0.3s ease-in-out;-webkit-transition: font-size 0.3s ease-in-out;}
+
+@media screen and (max-width:1200px) {
+    .history_box { height: auto !important; overflow-y: inherit; }
+}
+
+/*图标管理*/
+.iconsLength{ margin:0 5px;}
+.icons li{  margin:5px 0; text-align:center; height:120px; cursor:pointer;}
+.icons li i{ display:block; font-size:35px; margin:10px 0; line-height:60px; height:60px;}
+.icons li:hover{ background:rgba(13,10,49,.9); border-radius:5px; color:#fff;}
+.icons li:hover i{ font-size:50px;}
+#copyText{ width:0;height:0; opacity:0; position:absolute; left:-9999px; top:-9999px;}
+/*开发文档*/
+h2.method{ font-size:18px; line-height:45px; padding-left:5px;}
+/*响应式*/
+@media screen and (max-width:450px) {
+    #userFaceBtn{ height: 30px;line-height: 30px; padding: 0 10px; font-size: 12px;}
+    .user_right img#userFace{ width:100px; height:100px; margin-top:0;}
+    .layui-col-xs12 .layui-form-label{ width:60px; padding-left:0;}
+    .layui-col-xs12 .layui-input-block,.layui-col-xs12 .layui-input-inline{ margin-left:75px;}
+    .layui-col-xs12 .layui-input-inline{ left:0 !important; width:auto !important;}
+    .noFind{ padding-top:0;}
+    *[pc]{ display:none;}
+}
+
+/** 自定义css **/
+.margin-top-5 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.upload-cover-images {
+    width: 250px;
+    height: 140px;
+    border: 1px solid #eee;
+    background-color: #eeffee;
+}
+.upload-cover-images:hover {
+    background-color: #eff;
+    border: 1px solid #fff9ec;
+}
+.layui-form-checkbox[lay-skin=primary] span {
+    color: #222;
+}
+.layui-table {
+    color: #222;
+}
+.bang-toolbar {
+    margin: 3px 0;
+}
+
+#adImageBtn {
+    position: relative;
+    padding: 0;
+}
+#adImageBtn img {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+#adImageBtn i {
+	display: inline-block;
+    margin-top: 30px;
+}
+#fontInline {
+	margin-top: 10px;
+}
