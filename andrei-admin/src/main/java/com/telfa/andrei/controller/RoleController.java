@@ -15,6 +15,7 @@ import com.telfa.andrei.vo.RoleVO;
 import com.telfa.andrei.vo.Xtree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,6 +57,7 @@ public class RoleController {
 
 
     @RequestMapping("/toAdd")
+    @Secured("ROLE_ADMIN")
     public String toAdd(Model m){
         m.addAttribute("role",new Role());
         return "admin/role/roleAdd";
@@ -64,6 +66,7 @@ public class RoleController {
 
     @RequestMapping("/market/{roleId}/{disable}")
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public WebResult market(@PathVariable(name = "roleId") Integer roleId,@PathVariable(name = "disable")Integer status){
         int result = 0;
         try{
@@ -82,6 +85,7 @@ public class RoleController {
 
     @RequestMapping("/disable/{roleId}")
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public WebResult market(@PathVariable(name = "roleId") Integer roleId){
         int result = 0;
         try{
@@ -99,6 +103,7 @@ public class RoleController {
     }
 
     @RequestMapping("/edit/{roleId}")
+    @Secured("ROLE_ADMIN")
     public String toEditPage(@PathVariable("roleId")Integer roleId,Model m){
         if(roleId != null){
             Role role = roleService.getRoleById(roleId);
@@ -109,6 +114,7 @@ public class RoleController {
 
     @RequestMapping("/addNewRole")
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public WebResult addNewGuest(Role role,String sysUserIds){
         int result = 0;
         int roleId = 0;
@@ -184,6 +190,7 @@ public class RoleController {
 
 
     @RequestMapping("/allocateResource/{roleId}")
+    @Secured("ROLE_ADMIN")
     public String allocateResource(@PathVariable("roleId")int roleId, Model m){
         m.addAttribute("roleId",roleId);
         return "admin/role/allcateResource";
@@ -216,6 +223,7 @@ public class RoleController {
      */
     @RequestMapping("bindResourceForRole")
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public WebResult bindResourceForRole(String resourceIds,int roleId){
         try{
             int i = roleService.bindResourceForRole(resourceIds, roleId);

@@ -75,4 +75,15 @@ public class BaseController {
         return "redirect:/login";
     }
 
+    @GetMapping("noPermission/error")
+    @ResponseBody
+    public WebResult noPermission() {
+        return new WebResult().error("没有权限访问");
+    }
+
+    @GetMapping("noPermission/403")
+    public String noPermissionRedirect() {
+        return "error/403";
+    }
+
 }

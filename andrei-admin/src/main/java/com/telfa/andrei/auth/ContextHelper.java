@@ -1,11 +1,14 @@
 package com.telfa.andrei.auth;
 
 import com.telfa.andrei.model.SysUser;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
+
+import java.util.logging.Logger;
 
 /**
  * session, 取Spring
@@ -20,7 +23,6 @@ public class ContextHelper {
     public static SysUserUserDetails currentSysUserDetails() {
         // 从SpringSecurity中获取登录用户信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
         if(authentication != null && !authentication.getPrincipal().equals("anonymousUser")) {
             Object object = authentication.getPrincipal();
             return (SysUserUserDetails) object;

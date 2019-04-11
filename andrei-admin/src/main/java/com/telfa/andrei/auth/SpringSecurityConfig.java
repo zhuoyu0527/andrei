@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +27,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpMethodConstraint;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -36,6 +39,7 @@ import java.io.PrintWriter;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringSecurityConfig.class);
@@ -130,7 +134,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             if(authentication != null) {
                 LOGGER.info("用户[{}]试图访问受保护资源[{}].", authentication.getName(), httpServletRequest.getRequestURI());
             }
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath().concat("/403"));
+            if(httpServletRequest.getMethod() == HttpMethod.GET.name()){
+                httpServletResponse.sendRedirect(httpServletRequest.getContextPath().concat("/noPermission/403"));
+            }else{
+                httpServletResponse.sendRedirect(httpServletRequest.getContextPath().concat("/noPermission/error"));
+            }
         };
     }
 

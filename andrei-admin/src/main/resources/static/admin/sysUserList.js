@@ -77,6 +77,9 @@ var curr;
                     if(result.code === 200) {
                         layer.msg(result.msg, { icon: 2 });
                     }
+                else{
+                    layer.msg(result.msg, { icon: 2 });
+                }
                 });
             });
         }else if(layEvent === 'sysUserEdit'){

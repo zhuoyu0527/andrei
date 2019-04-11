@@ -15,6 +15,7 @@ import com.telfa.andrei.utils.MD5Util;
 import com.telfa.andrei.vo.ResourceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -69,6 +70,7 @@ public class SysUserController {
      */
     @PostMapping("/disable/{sysUserId}/{option}")
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public WebResult disable(@PathVariable("sysUserId") Integer sysUserId,@PathVariable("option") String option) {
         try {
             sysUserService.disable(sysUserId, ContextHelper.currentSysUser(),option);
@@ -84,6 +86,7 @@ public class SysUserController {
      * @return 新增用户页面
      */
     @GetMapping("/add")
+    @Secured("ROLE_ADMIN")
     public String add(Model model) {
         SysUser sysUser = new SysUser();
         sysUser.setStatus(MemberStatusEnum.NORMAL.getCode().byteValue());
@@ -98,6 +101,7 @@ public class SysUserController {
      */
     @PostMapping("/save")
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public WebResult save(SysUser sysUser,String roleIds){
 
         Integer sysId = -1;
@@ -150,6 +154,7 @@ public class SysUserController {
      * @return 编辑用户页面
      */
     @GetMapping("/edit/{sysUserId}")
+    @Secured("ROLE_ADMIN")
     public String edit(@PathVariable("sysUserId") Integer sysUserId, Model model) {
         SysUser sysUser = sysUserService.getSysUserById(sysUserId);
         model.addAttribute("sysUser", sysUser);
@@ -158,6 +163,7 @@ public class SysUserController {
 
     @PostMapping("/password/reset/{sysUserId}")
     @ResponseBody
+    @Secured("ROLE_ADMIN")
     public WebResult resetPassword(@PathVariable("sysUserId") Integer sysUserId) {
         SysUser sysUser = sysUserService.getSysUserById(sysUserId);
         if(sysUser == null) {
