@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理系统v1.0</title>
+    <meta name="ctx" th:content="@{/}">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="css/public.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/css/public-list.css}" href="css/public-list.css" media="all"/>
+    <script type="text/javascript" th:src="@{/layui/layui.all.js}" src="layui/layui.all.js"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}" src="js/jquery-3.2.1.min.js"></script>
+    <style type="text/css">
+        　　body{ font-size:20px;}
+        .chooseGuest{
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: #5FB878;
+        }
+    </style>
+    <script type="text/javascript">
+        window.getChoseId=function () {
+            var guestInfo=[];
+            var guestIds = '';
+            $.each($('.chooseGuest'),function (i,n) {
+                if($(n).prop("checked")){
+                    guestInfo.push($(n).next("input").val());
+                    if(guestIds == ''){
+                        guestIds = $(n).val();
+                    }else{
+                        guestIds = guestIds +'-'+$(n).val();
+                    }
+                };
+
+            })
+            guestInfo.push(guestIds);
+            return guestInfo;
+        };
+    </script>
+</head>
+<body>
+<table class="layui-table" lay-skin="nob" lay-size="sm">
+    <tbody th:if="${allGuestList}">
+    <tr th:each="list,status:${allGuestList}" style="text-align: center">
+        <td>
+            <input class="chooseGuest" type="checkbox" th:value="${list.sysUserId}" lay-skin="primary">
+            <input type="hidden" th:value="${list.username}">
+        </td>
+        <td th:text="${list.username}"></td>
+    </tr>
+    </tbody>
+</table>
+<script th:inline="javascript">
+    var courseId = [[${roleId}]];
+    var courseGuestList = [[${courseGuestList}]];
+    var json = (courseGuestList == -1)?'':JSON.parse(courseGuestList);
+    if(courseId != -1){
+        $.each($('.chooseGuest'),function (i,n) {
+            if(json != ''){
+                for(var i = 0;i < json.length;i++){
+                    if($(n).val() == json[i].sysUserId){
+                        console.log("$(n).val()= "+$(n).val());
+                        $(n).attr('checked','checked');
+                    }
+                }
+            }
+
+        })
+    }
+</script>
+</body>
+</html>

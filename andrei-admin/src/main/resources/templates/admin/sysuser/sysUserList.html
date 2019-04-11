@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>后台管理系统v1.0</title>
+  <meta name="ctx" th:content="@{/}">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="layui/css/layui.css" media="all"/>
+  <link rel="stylesheet" th:href="@{/css/public.css}" href="css/public.css" media="all"/>
+  <link rel="stylesheet" th:href="@{/css/public-list.css}" href="css/public-list.css" media="all"/>
+</head>
+<body>
+<div class="layui-fluid">
+  <div class="layui-form">
+    <div class="layui-form-item">
+      <div class="layui-inline">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+          <input type="text" name="username" class="layui-input" placeholder="按用户名查询" autocomplete="off"/>
+        </div>
+      </div>
+      <div class="layui-inline">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+          <input type="text" name="realname" class="layui-input" placeholder="按姓名查询" autocomplete="off"/>
+        </div>
+      </div>
+      <div class="layui-inline">
+        <button type="button" id="btnSearch" class="layui-btn layui-btn-sm">查询</button>
+      </div>
+    </div>
+    <div class="bang-toolbar">
+      <button class="layui-btn layui-btn-normal  layui-btn-sm layui-bg-green" id="createNewSysUser">
+        <i class="layui-icon">&#xe608;</i> 新增用户
+      </button>
+    </div>
+    <table id="sysuser-list-table" lay-filter="sysuser-list-table-filter"></table>
+  </div>
+</div>
+<div id="page"></div>
+<script type="text/javascript" th:src="@{/layui/layui.min.js}" src="layui/layui.min.js"></script>
+<script type="text/javascript" th:src="@{/admin/sysUserList.js}" src="admin/sysUserList.js"></script>
+<script type="text/html" id="sysuser-list-toolbar">
+  <!-- 根据status的状态展现状态值及样式 -->
+  {{# if(d.status === 0) { }}
+  <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="sysUserDisable">停用</a>
+  <a class="layui-btn layui-btn-sm" lay-event="sysUserEdit">编辑</a>
+  {{# } else if(d.status === 1) { }}
+  <a class="layui-btn layui-btn-sm"  lay-event="sysUserenable">启用</a>
+  <a class="layui-btn layui-bg-gray layui-btn-sm layui-disabled ">编辑</a>
+  {{# } }}
+  <a class="layui-btn layui-btn-sm" lay-event="sysUserResetPassword">重置密码</a>
+</script>
+<script type="text/html" id="sysuser-list-status-tpl">
+  {{#  if(d.status === 0) { }}
+  <span>正常</span>
+  {{#  } else if(d.status === 1) { }}
+  <span style="color: #ff0000;">停用</span>
+  {{# } else { }}
+  未知
+  {{# } }}
+</script>
+<script type="text/html" id="sysuser-list-createtime-tpl">
+  {{ new Date(d.createTime * 1000).toLocaleDateString()+' '+new Date(d.createTime * 1000).getHours()+':'+new Date(d.createTime * 1000).getMinutes()+':'+new Date(d.createTime * 1000).getSeconds()}}
+</script>
+</body>
+</html>

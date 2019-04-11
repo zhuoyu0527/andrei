@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理系统v1.0</title>
+    <meta name="ctx" th:content="@{/}">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="css/public.css" media="all"/>
+    <script type="text/javascript" th:src="@{/layui/layui.min.js}" src="layui/layui.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-3.2.1.min.js}" src="js/jquery-3.2.1.min.js"></script>
+    <!--引用xtree-->
+    <script type="text/javascript" th:src="@{/layui/layui-xtree/layui-xtree.js}" src="layui/layui-xtree/layui-xtree.js"></script>
+    <title></title>
+    <style type="text/css">
+        form {
+            width: 500px;
+            margin: 10px auto;
+        }
+
+        h1, h2, h3 {
+            padding: 10px 0;
+        }
+
+        a {
+            text-align: right;
+            font-size: 18px;
+            color: #1C86EE;
+        }
+
+        .xtree_contianer {
+            width: 500px;
+            border: 1px solid #9C9C9C;
+            overflow: auto;
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 10px 0 25px 5px;
+        }
+
+        .div-btns {
+            margin: 20px 0;
+        }
+
+        .layui-form-label {
+            width: 60px !important;
+        }
+    </style>
+</head>
+<body>
+<!--别忘记form 以及form的class-->
+<form class="layui-form">
+    <input type="hidden" id="roleId" th:value="${roleId}"/>
+    <div id="xtree3" class="xtree_contianer"></div>
+    <!--<div class="div-btns">
+        <input type="button" id="btn1" value="获取全部[选中的][节点]原checkbox DOM对象，返回Array" class="layui-btn layui-btn-fluid" />
+    </div>-->
+    <div class="layui-col-md1 layui-col-md-offset5">
+        <button  style="position: relative;left: 200px;" class="layui-btn layui-col-md12" lay-submit lay-filter="resource_save">保存</button>
+        <button   id="sysuserEdit_cancel" type="reset" style="position: relative;left: 300px;" class="layui-btn layui-col-md12">取消</button>
+    </div>
+</form>
+</body>
+
+<script type="text/javascript">
+    // 根路径
+    var _ctx = document.querySelector('meta[name=ctx]').getAttribute('content');
+    layui.use(['form'], function () {
+        var nodeIds = [];
+        var form = layui.form;
+        var xtree3 = new layuiXtree({
+            elem: 'xtree3'                  //必填三兄弟之老大
+            , form: form                    //必填三兄弟之这才是真老大
+            , data: _ctx+'role/getResource/'+$('#roleId').val()//必填三兄弟之这也算是老大
+            , isopen: true  //加载完毕后的展开状态，默认值：true
+            , ckall: false   //启用全选功能，默认值：false
+            , ckallback: function () { } //全选框状态改变后执行的回调函数
+            , icon: {        //三种图标样式，更改几个都可以，用的是layui的图标
+                open: "&#xe7a0;"       //节点打开的图标 &#xe625;
+                , close: "&#xe622;"    //节点关闭的图标 &#xe623;
+                , end: "&#xe621;"      //末尾节点的图标 &#xe621;
+            }
+            , color: {       //三种图标颜色，独立配色，更改几个都可以
+                open: "#009688"        //节点图标打开的颜色 #009688
+                , close: "#009688"     //节点图标关闭的颜色
+                , end: "#828282"       //末级节点图标的颜色
+            }
+            , click: function (data) {  //节点选中状态改变事件监听，全选框有自己的监听事件
+                console.log('得到checkbox原始DOM对象:'+data.elem); //得到checkbox原始DOM对象
+                console.log('开关是否开启:'+data.elem.checked); //开关是否开启，true或者false
+                console.log('开关value值:'+data.value); //开关value值，也可以通过data.elem.value得到
+                console.log('得到美化后的DOM对象:'+data.othis); //得到美化后的DOM对象
+            }
+        });
+
+        //监听保存操作
+        form.on('submit(resource_save)',function (data) {
+            //获取所有选中的节点value
+            var oCks = xtree3.GetChecked();
+            for (var i = 0; i < oCks.length; i++) {
+                console.log(oCks[i].value);
+                nodeIds.push(oCks[i].value);
+            }
+            console.log('nodeIds:'+nodeIds);
+            $.ajax({
+                url:_ctx+'role/bindResourceForRole',
+                type:'post',
+                dataType: 'json',
+                data: {resourceIds:nodeIds+'',roleId:$('#roleId').val()},
+                success:function (result) {
+                    if(result.code == 200){
+                        layer.msg("操作成功",{time:4000,icon:5});
+                        window.parent.reload();
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index);
+                    }else if(result.code  == 500){
+                        layer.msg("操作失败");
+                    }
+                },
+                error:function(d){
+                    layer.msg("添加失败");
+                }
+
+            })
+            return false;
+        })
+
+
+    });
+
+    $("#sysuserEdit_cancel").click(function(){
+        var idx = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(idx);
+    });
+</script>
+</html>

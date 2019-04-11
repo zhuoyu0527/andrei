@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理系统v1.0</title>
+    <meta name="ctx" th:content="@{/}">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/css/public.css}" href="css/public.css" media="all"/>
+    <script type="text/javascript" th:src="@{/layui/layui.min.js}" src="layui/layui.min.js"></script>
+    <script type="application/javascript">
+        window.onload=function () {
+            document.getElementById("oldPassword").focus();
+        }
+    </script>
+</head>
+<body>
+<div class="layui-fluid margin-top-5">
+    <div class="layui-row">
+        <div class="layui-col-md10">
+            <form class="layui-form" id="changePwdForm">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*原密码:</label>
+                    <div   class="layui-input-inline">
+                        <input  id="oldPassword" type="text" name="oldPwd" style="width: 350px"  value="" lay-verify="required|oldPwd"  autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">*新密码:</label>
+                    <div  id="inline" class="layui-input-inline">
+                        <input type="text" name="newPwd" style="width: 350px"  value="" lay-verify="required|newPwd" placeholder="新密码:请输入6-20位字符" autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-col-md1 layui-col-md-offset2">
+                    <button  style="position: relative ;left: 450px" class="layui-btn" lay-submit lay-filter="aaa">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    layui.use(['jquery','form', 'element'], function(){
+        var layer = layui.layer,
+            form = layui.form,
+            $=layui.jquery,
+            element = layui.element;
+        var _ctx = document.querySelector('meta[name=ctx]').getAttribute('content');
+
+
+        //自定义验证规则
+        form.verify({
+            oldPwd:function (value) {
+                var flag = 0;
+                $.post({
+                    async:false,
+                    url:_ctx+'sysuser/oldPwd',
+                    data:{oldPwd:value.trim()},
+                    dataType:'json',
+                    success:function(result){
+                        if(result.code == 500){
+                            flag = 1;
+                        }
+                    }
+                })
+
+                if(flag == 1){
+                    return "原始密码错误";
+                }
+            },
+            newPwd: function(value) {
+                if(value.trim() == $('input[name=oldPwd]').val().trim()){
+                    return "新密码和原始密码相同";
+                }
+                if(value.length <6 || value.length >20){
+                    return "密码要求6-20位字符";
+                }
+            }
+        });
+
+        form.on('submit(aaa)',function (data) {
+            $.ajax({
+                  url:_ctx+'sysuser/changePasswd',
+                  type:'post',
+                  dataType: 'json',
+                  data: {newPwd:$('input[name=newPwd]').val()},
+                  success:function (result) {
+                      if(result.code == 200){
+                          layer.alert("修改成功",{time:2000,icon:1});
+                          var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                          parent.layer.close(index);
+                      }else if(result.code  == 500){
+                          layer.msg("修改失败",{time:2000,icon:2});
+                      }
+                  },
+                  error:function(d){
+                      layer.msg("修改失败",{time:2000,icon:2});
+                  }
+
+              })
+            return false;
+        })
+
+    });
+</script>
+</html>
