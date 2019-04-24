@@ -40,7 +40,7 @@
         </root>
     </springProfile>
 
-    <springProfile name="product">
+    <springProfile name="dev,test,product">
         <root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="asyncFile"/>
