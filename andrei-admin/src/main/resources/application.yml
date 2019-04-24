@@ -4,8 +4,8 @@ server:
     context-path: /admin
   undertow:
     buffer-size: 1024
-    io-threads: 2
-    worker-threads: 16
+    io-threads: 1
+    worker-threads: 4
     direct-buffers: true
 
 spring:
