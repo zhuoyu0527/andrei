@@ -13,10 +13,6 @@
 	<artifactId>andrei-admin</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.telfa</groupId>
@@ -65,4 +61,5 @@
 			<artifactId>spring-security-oauth2</artifactId>
 		</dependency>
 	</dependencies>
+
 </project>
