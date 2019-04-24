@@ -17,7 +17,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.0.RELEASE</version>
+		<version>2.0.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -166,9 +166,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<layout>ZIP</layout>
-					<excludeGroupIds>
-						ch.qos.logback, com.alibaba, com.fasterxml, com.fasterxml.jackson.core, com.fasterxml.jackson.datatype, com.fasterxml.jackson.module, com.github.jsqlparser, com.github.pagehelper, com.google.code.findbugs, com.google.code.gson, com.google.errorprone, com.google.guava, com.google.j2objc, com.qiniu, com.squareup.okhttp3, com.squareup.okio, com.zaxxer, commons-beanutils, commons-codec, commons-collections, commons-fileupload, commons-io, commons-lang, commons-logging, io.lettuce, io.netty, io.projectreactor, io.undertow, javax.annotation, javax.persistence, javax.servlet, javax.validation, mysql, net.sf.ezmorph, net.sf.json-lib, org.apache.commons, org.apache.httpcomponents, org.apache.kafka, org.apache.logging.log4j, org.apache.solr, org.apache.zookeeper, org.attoparser, org.bouncycastle, org.codehaus.jackson, org.codehaus.mojo, org.codehaus.woodstox, org.glassfish, org.hibernate.validator, org.jboss.logging, org.jboss.spec.javax.annotation, org.jboss.spec.javax.websocket, org.jboss.xnio, org.lz4, org.mybatis, org.mybatis.generator, org.mybatis.spring.boot, org.noggit, org.reactivestreams, org.slf4j, org.springframework, org.springframework.boot, org.springframework.data, org.springframework.kafka, org.springframework.retry, org.springframework.security, org.springframework.security.oauth, org.springframework.session, org.thymeleaf, org.thymeleaf.extras, org.unbescape, org.xerial.snappy, org.yaml, redis.clients, tk.mybatis,  org.apache.poi
-					</excludeGroupIds>
 				</configuration>
 			</plugin>
 		</plugins>
